@@ -9,8 +9,9 @@ import (
 )
 
 type Config struct {
-	Server ServerConfig `env-prefix:"SERVER_" env-required:"true"`
-	DB     DBConfig     `env-prefix:"DB_" env-required:"true"`
+	Server      ServerConfig     `env-prefix:"SERVER_" env-required:"true"`
+	StoragePath string           `env:"STORAGE_PATH" env-required:"true"`
+	WeatherAPI  WeatherAPIConfig `env-prefix:"WEATHER_API_" env-required:"true"`
 }
 
 type ServerConfig struct {
@@ -20,12 +21,9 @@ type ServerConfig struct {
 	IdleTimeout time.Duration `env:"IDLE_TIMEOUT" env-default:"60s"`
 }
 
-type DBConfig struct {
-	Host     string `env:"HOST" env-default:"localhost"`
-	Port     int    `env:"PORT" env-default:"5432"`
-	Username string `env:"USERNAME" env-default:"postgres"`
-	Password string `env:"PASSWORD" env-required:"true"`
-	Name     string `env:"NAME" env-required:"true"`
+type WeatherAPIConfig struct {
+	URL string `env:"URL" env-required:"true"`
+	Key string `env:"KEY" env-required:"true"`
 }
 
 func MustLoad() *Config {
