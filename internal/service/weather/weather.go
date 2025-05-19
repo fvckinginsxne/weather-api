@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 	"time"
+
 	"weather-api/internal/client/weathermap"
 	"weather-api/internal/domain/model"
 	"weather-api/internal/lib/logger/sl"
@@ -66,11 +67,15 @@ func (s *Service) Save(
 
 	weather.CreatedAt = time.Now()
 
+	log.Info("saving weather")
+
 	if err = s.saver.SaveWeather(ctx, weather); err != nil {
 		log.Error("failed to save weather", sl.Err(err))
 
 		return nil, fmt.Errorf("%s: %w", op, err)
 	}
+
+	log.Info("weather saved successfully")
 
 	return dto.WeatherModelToResponse(weather), nil
 }

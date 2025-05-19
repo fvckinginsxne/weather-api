@@ -86,6 +86,8 @@ func (c *Client) Weather(ctx context.Context, city string) (*dto.WeatherResponse
 		return nil, fmt.Errorf("%s: %w", op, ErrCityNotFound)
 	}
 
+	log.Info("weather successfully fetched from OpenWeatherMap")
+
 	return &dto.WeatherResponse{
 		City:      city,
 		Desc:      result.Weather[0].Description,

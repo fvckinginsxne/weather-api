@@ -1,0 +1,105 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "API for getting current weather",
+        "title": "Weather API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/weather": {
+            "post": {
+                "description": "Saves a weather info for the specified city",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "/weather"
+                ],
+                "parameters": [
+                    {
+                        "description": "Weather request data",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successfully saved weather",
+                        "schema": {
+                            "$ref": "#/definitions/dto.WeatherResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request data",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.CreateRequest": {
+            "type": "object",
+            "required": [
+                "city"
+            ],
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "example": "Нигер"
+                }
+            }
+        },
+        "dto.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "invalid request"
+                }
+            }
+        },
+        "dto.WeatherResponse": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "example": "Нигер"
+                },
+                "desc": {
+                    "type": "string",
+                    "example": "облачно"
+                },
+                "temp": {
+                    "type": "number",
+                    "example": 37.8
+                },
+                "wind_speed": {
+                    "type": "number",
+                    "example": 5.79
+                }
+            }
+        }
+    }
+}

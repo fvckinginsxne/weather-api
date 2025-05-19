@@ -18,6 +18,16 @@ type WeatherSaver interface {
 	Save(ctx context.Context, request *dto.CreateRequest) (*dto.WeatherResponse, error)
 }
 
+// New @Summary Save current weather
+// @Description Saves a weather info for the specified city
+// @Tags /weather
+// @Accept json
+// @Produce json
+// @Param input body dto.CreateRequest true "Weather request data"
+// @Success 201 {object} dto.WeatherResponse "Successfully saved weather"
+// @Failure 400 {object} dto.ErrorResponse "Invalid request data"
+// @Failure 500 {object} dto.ErrorResponse "Internal server error"
+// @Router /weather [post]
 func New(
 	ctx context.Context,
 	log *slog.Logger,

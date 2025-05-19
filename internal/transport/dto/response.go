@@ -7,10 +7,10 @@ type ErrorResponse struct {
 }
 
 type WeatherResponse struct {
-	City      string  `json:"city" example:"Нижний Новгород"`
+	City      string  `json:"city" example:"Нигер"`
 	Desc      string  `json:"desc" example:"облачно"`
-	Temp      float64 `json:"temp" example:"27.8"`
-	WindSpeed float64 `json:"wind_speed" example:"1.79"`
+	Temp      float64 `json:"temp" example:"37.8"`
+	WindSpeed float64 `json:"wind_speed" example:"5.79"`
 }
 
 func WeatherResponseToModel(weatherResponse *WeatherResponse) *model.Weather {

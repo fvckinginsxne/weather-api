@@ -12,7 +12,10 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
+	_ "weather-api/docs"
 	"weather-api/internal/client/weathermap"
 	"weather-api/internal/config"
 	"weather-api/internal/lib/logger/sl"
@@ -25,6 +28,12 @@ const (
 	shutdownTimeout = 10 * time.Second
 )
 
+// @title Weather API
+// @version 1.0
+// @description API for getting current weather
+// @host localhost:8080
+// @BasePath /
+// @schemes http
 func main() {
 	cfg := config.MustLoad()
 
@@ -56,6 +65,8 @@ func main() {
 	g := gin.New()
 
 	g.Use(gin.Recovery())
+
+	g.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	weatherGroup := g.Group("/weather")
 	{

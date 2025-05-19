@@ -35,7 +35,7 @@ func (s *Storage) Init() error {
 	const op = "storage.sqlite.Init"
 
 	q, err := s.db.Prepare(`
-		CREATE TABLE IF NOT EXISTS weather (
+		CREATE TABLE IF NOT EXISTS weather_info (
 		    id INTEGER PRIMARY KEY,
 		    city VARCHAR(255) NOT NULL,
 		    description VARCHAR(255) NOT NULL,
@@ -59,7 +59,7 @@ func (s *Storage) SaveWeather(ctx context.Context, weather *model.Weather) error
 	const op = "storage.sqlite.SaveWeather"
 
 	q, err := s.db.PrepareContext(ctx, `
-		INSERT INTO weather (city, description, temperature, wind_speed, created_at)
+		INSERT INTO weather_info (city, description, temperature, wind_speed, created_at)
 		VALUES (?, ?, ?, ?, ?)
 	`)
 	if err != nil {

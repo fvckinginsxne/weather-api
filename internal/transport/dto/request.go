@@ -1,5 +1,5 @@
 package dto
 
 type CreateRequest struct {
-	City string `json:"city" binding:"required" example:"Niger"`
+	City string `json:"city" binding:"required" example:"Нигер"`
 }

@@ -1,0 +1,70 @@
+basePath: /
+definitions:
+  dto.CreateRequest:
+    properties:
+      city:
+        example: Нигер
+        type: string
+    required:
+    - city
+    type: object
+  dto.ErrorResponse:
+    properties:
+      error:
+        example: invalid request
+        type: string
+    type: object
+  dto.WeatherResponse:
+    properties:
+      city:
+        example: Нигер
+        type: string
+      desc:
+        example: облачно
+        type: string
+      temp:
+        example: 37.8
+        type: number
+      wind_speed:
+        example: 5.79
+        type: number
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API for getting current weather
+  title: Weather API
+  version: "1.0"
+paths:
+  /weather:
+    post:
+      consumes:
+      - application/json
+      description: Saves a weather info for the specified city
+      parameters:
+      - description: Weather request data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully saved weather
+          schema:
+            $ref: '#/definitions/dto.WeatherResponse'
+        "400":
+          description: Invalid request data
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      tags:
+      - /weather
+schemes:
+- http
+swagger: "2.0"
