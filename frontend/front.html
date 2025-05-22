@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather App</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f4f8;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      width: 200px;
+    }
+
+    .container {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .form {
+        margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    #loader {
+      display: none;
+      margin: 20px auto;
+    }
+
+    .spinner {
+      border: 6px solid #eee;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    #weather-card {
+      margin-top: 30px;
+      display: inline-block;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    #error {
+      color: red;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌤 Weather App</h1>
+
+    <div class="form">
+      <input id="city" placeholder="Enter city name" />
+      <button onclick="getWeather()">Get Weather</button>
+    </div>
+
+    <div id="loader"><div class="spinner"></div></div>
+    <div id="weather-card" style="display: none;"></div>
+    <div id="error"></div>
+  </div>
+  <script>
+    async function getWeather() {
+      const city = document.getElementById("city").value.trim();
+      const loader = document.getElementById("loader");
+      const card = document.getElementById("weather-card");
+      const error = document.getElementById("error");
+
+      card.style.display = "none";
+      error.textContent = "";
+      loader.style.display = "block";
+
+      try {
+        const response = await fetch("/weather", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ city })
+        });
+
+        loader.style.display = "none";
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Request failed");
+        }
+
+        const data = await response.json();
+
+        card.innerHTML = `
+          <h2>Погода в ${data.city}</h2>
+          <p><strong>Описание:</strong> ${data.desc}</p>
+          <p><strong>Температура:</strong> ${data.temp} °C</p>
+          <p><strong>Скорость ветра:</strong> ${data.wind_speed} м/с</p>
+        `;
+        card.style.display = "block";
+      } catch (err) {
+        loader.style.display = "none";
+        error.textContent = "❌ Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
